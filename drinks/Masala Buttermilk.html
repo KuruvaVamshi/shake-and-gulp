@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masala Buttermilk – Shake & Gulp</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #2f3b2f;
+      background: url("https://i.ibb.co/hJR4H2VG/buttermilkbackground.png") no-repeat center center fixed;
+      background-size: cover;
+      line-height: 1.6;
+      padding-top: 80px;
+    }
+
+    /* ================= CONTAINER ================= */
+
+    .container {
+      width: 85%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    /* ================= HEADER ================= */
+
+    /* =============================
+           GLASS NAVBAR (UPDATED)
+        ============================= */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95%;
+      max-width: none;
+      padding: 16px 70px;
+      border-radius: 50px;
+      backdrop-filter: blur(15px);
+      background: rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #000;
+      font-weight: 600;
+      letter-spacing: 1px;
+      z-index: 100;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #000;
+      font-size: 14px;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.6;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 40px;
+      height: auto;
+    }
+
+    /* =============================
+           LEVEL-1 DROPDOWN (Drinks)
+        ============================= */
+    .nav-item {
+      position: relative;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      min-width: 220px;
+      padding: 10px;
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 200;
+    }
+
+    /* Hover bridge */
+    .dropdown::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      right: 0;
+      height: 20px;
+    }
+
+    .nav-item:hover>.dropdown {
+      opacity: 1;
+      transform: translateX(-50%) translateY(8px);
+      pointer-events: auto;
+    }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      font-size: 14px;
+      color: #000;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.2s, padding-left 0.2s;
+      white-space: nowrap;
+    }
+
+    .dropdown a:hover {
+      background: rgba(0, 0, 0, 0.06);
+      padding-left: 18px;
+    }
+
+    .dropdown-category {
+      position: relative;
+    }
+
+    .dropdown-category>.cat-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      border-radius: 10px;
+      cursor: default;
+      transition: background 0.2s;
+    }
+
+    .dropdown-category:hover>.cat-label {
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    .cat-arrow {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-left: 8px;
+    }
+
+    /* =============================
+           LEVEL-2 DROPDOWN (sub-list)
+        ============================= */
+    .dropdown-level2 {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      transform: translateX(10px);
+      min-width: 200px;
+      padding: 10px;
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 201;
+    }
+
+    /* Side bridge */
+    .dropdown-level2::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -15px;
+      width: 15px;
+      height: 100%;
+    }
+
+    .dropdown-category:hover>.dropdown-level2 {
+      opacity: 1;
+      transform: translateX(5px);
+      pointer-events: auto;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      margin: 6px 10px;
+    }
+
+    /* =============================
+           NAVBAR BACKGROUND BLUR
+        ============================= */
+    .nav-blur {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      z-index: 50;
+    }
+
+    body:has(.nav-item:hover) .nav-blur {
+      opacity: 1;
+    }
+
+
+    /* ================= HERO ================= */
+
+
+
+    .hero-left {
+      width: 45%;
+      display: flex;
+      justify-content: flex-end;
+      /* pushes image to right */
+      padding-right: 80px;
+      /* small spacing control */
+    }
+
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      /* Aligns content to top for consistency */
+      justify-content: center;
+      gap: 50px;
+      padding: 40px 0 50px 0;
+      /* Consistent top padding */
+      min-height: 80vh;
+      transform: none;
+      /* moves whole hero slightly left */
+    }
+
+
+
+
+    .hero-right {
+      width: 50%;
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .bottle {
+      width: 100%;
+      max-width: 280px;
+      margin-top: 20px;
+      /* Aligns bottle top with text top */
+    }
+
+    /* ================= TEXT ================= */
+
+    h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 48px;
+      /* slightly reduced but still large */
+      margin-bottom: 12px;
+    }
+
+    .tagline {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #4b5b4b;
+    }
+
+    .small-label {
+      background: #d7e6d6;
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    /* ================= INGREDIENTS ================= */
+
+    .ingredients {
+      display: flex;
+      gap: 20px;
+      /* reduced spacing */
+      margin: 25px 0;
+      /* reduced margin */
+      flex-wrap: wrap;
+    }
+
+    .ingredient {
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .ingredient span {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    /* Circle Design */
+
+    .circle {
+      width: 70px;
+      /* reduced */
+      height: 70px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+    }
+
+    .circle img {
+      width: 38px;
+      /* reduced */
+      transition: transform 0.4s ease;
+    }
+
+    /* Hover Effects */
+
+    .ingredient:hover img {
+      transform: translateY(-6px);
+    }
+
+    .ingredient:hover .circle {
+      box-shadow: 0 15px 35px rgba(92, 138, 90, 0.25);
+      transform: translateY(-4px);
+    }
+
+    /* ================= SPECIAL SECTION ================= */
+
+    .special h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    .special p {
+      margin-bottom: 12px;
+      /* reduced */
+      font-size: 15px;
+      color: #3e4a3e;
+    }
+
+    /* ================= INFO SECTION ================= */
+
+    .info {
+      padding: 70px 0;
+    }
+
+    .info-block {
+      margin-bottom: 50px;
+    }
+
+    .info-block h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 50px;
+    }
+
+    .tick-list {
+      list-style: none;
+    }
+
+    .tick-list li {
+      padding-left: 22px;
+      position: relative;
+      font-size: 14px;
+    }
+
+    .tick-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #5c8a5a;
+    }
+
+    /* ================= SUGGEST SECTION ================= */
+
+    .suggest {
+      padding: 70px 0;
+    }
+
+    .center-title {
+      text-align: center;
+      font-family: 'Libre Baskerville', serif;
+      font-size: 30px;
+      margin-bottom: 35px;
+    }
+
+    .center-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card img {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    /* =============================
+       PREMIUM BLACK FOOTER
+    ============================= */
+    .custom-footer {
+      background: #000;
+      color: #fff;
+      padding: 40px 60px 20px 60px;
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-left {
+      max-width: 300px;
+      margin-left: 60px;
+      position: relative;
+    }
+
+    .footer-left h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    .footer-left p {
+      font-size: 14px;
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .footer-middle {
+      text-align: left;
+    }
+
+    .footer-middle p {
+      margin-bottom: 12px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .footer-right h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .footer-right ul {
+      list-style: none;
+    }
+
+    .footer-right ul li {
+      margin-bottom: 10px;
+      font-size: 14px;
+      opacity: 0.85;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .footer-right ul li:hover {
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    /* ================= ANIMATION ================= */
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    /* =============================
+   HAMBURGER MENU
+============================= */
+
+    /* =============================
+           HAMBURGER MENU (UPDATED)
+        ============================= */
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+      position: fixed;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      padding: 25px;
+      border-radius: 30px;
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      text-align: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .mobile-menu a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-dropdown-title {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mobile-dropdown-links {
+      display: none;
+      flex-direction: column;
+      margin-top: 8px;
+      gap: 10px;
+    }
+
+    .mobile-dropdown-links.active {
+      display: flex;
+    }
+
+    .mobile-category-title {
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 0;
+      margin-top: 4px;
+    }
+
+    .mobile-category-title:not(:first-of-type) {
+      padding-top: 8px;
+    }
+
+    .mobile-sub-links {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 14px;
+      margin-top: 6px;
+    }
+
+    .mobile-sub-links a {
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    .mobile-sub-links.active {
+      display: flex;
+    }
+
+    /* ================= NAVIGATION ARROWS ================= */
+
+    .nav-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: #000;
+      font-size: 28px;
+      z-index: 1000;
+      transition: 0.3s ease;
+      text-decoration: none;
+    }
+
+    .nav-arrow:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      color: #000;
+    }
+
+    .nav-arrow-left {
+      left: 40px;
+    }
+
+    .nav-arrow-right {
+      right: 40px;
+    }
+
+    .footer-left-col {
+      position: relative;
+    }
+
+    .fssai-logo {
+      position: absolute;
+      width: 180px;
+      top: 60px;
+      left: 0;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+      }
+
+      .nav-arrow-left {
+        left: 15px;
+      }
+
+      .nav-arrow-right {
+        right: 15px;
+      }
+
+      .custom-footer {
+        padding: 60px 20px 30px 20px;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+      }
+
+      .footer-left {
+        margin-left: 0;
+        max-width: none;
+      }
+
+      .footer-left img {
+        position: static !important;
+        margin: 30px auto 0 auto !important;
+        width: 220px !important;
+        opacity: 1 !important;
+      }
+
+      .footer-bottom {
+        font-size: 12px;
+      }
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media(max-width: 900px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        min-height: auto;
+      }
+
+      .hero-left,
+      .hero-right {
+        width: 100%;
+      }
+
+      .ingredients {
+        justify-content: center;
+      }
+    }
+
+    /* ================= PRINT ================= */
+
+    @media print {
+
+      body {
+        background: none !important;
+      }
+
+      .container {
+        width: 1100px !important;
+        margin: 0 auto !important;
+      }
+
+      .hero {
+        flex-direction: row !important;
+        min-height: auto;
+      }
+
+      .hero-left,
+      .hero-right {
+        width: 50% !important;
+      }
+
+      .header {
+        position: relative !important;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        min-height: auto;
+        padding: 40px 0;
+        transform: none;
+        /* adjust 10–40px as needed */
+      }
+
+      .hero-left,
+      .hero-right {
+        width: 100%;
+      }
+
+      .hero-left {
+        justify-content: center;
+        padding-right: 0;
+        margin-bottom: 20px;
+      }
+
+      .bottle {
+        max-width: 260px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .tagline {
+        font-size: 16px;
+      }
+
+      .ingredients {
+        justify-content: center;
+        gap: 18px;
+      }
+
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .center-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-cols {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .fssai-logo {
+        position: static !important;
+        margin: 30px auto 0 auto !important;
+        width: 220px !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+
+      .hero {
+        padding: 40px 0;
+        gap: 30px;
+      }
+
+      .bottle {
+        max-width: 280px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .ingredients {
+        gap: 20px;
+      }
+
+      .two-column {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1400px) {
+
+      .container {
+        max-width: 1200px;
+      }
+
+      .bottle {
+        max-width: 350px;
+      }
+
+      h1 {
+        font-size: 52px;
+      }
+    }
+
+    /* =============================
+       CONTACT FORM GLASS POPUP
+    ============================= */
+    .contact-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s;
+    }
+
+    .contact-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .contact-form {
+      width: 90%;
+      max-width: 400px;
+      padding: 40px;
+      border-radius: 25px;
+      backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      text-align: center;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .contact-form h2 {
+      margin-bottom: 25px;
+    }
+
+    .contact-form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .contact-form textarea {
+      width: 100%;
+      height: 100px;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .contact-form button {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      border: none;
+      background: none;
+      font-size: 22px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="preload-images.js"></script>
+  <div class="nav-blur"></div>
+
+  <div class="navbar">
+    <div class="logo" onclick="location.href='../index.html'" style="cursor: pointer;">
+      <img src="https://i.ibb.co/cSXcmScQ/Shake-Gulp-Logo.png" alt="Logo">
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links">
+      <a href="../index.html#home">Home</a>
+
+      <div class="nav-item">
+        <a href="#">Drinks</a>
+        <div class="dropdown">
+
+          <div class="dropdown-category">
+            <div class="cat-label">
+              Traditional Drinks
+              <span class="cat-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+            <div class="dropdown-level2">
+              <a href="Jeera Buttermilk.html">Jeera Buttermilk</a>
+              <a href="Masala Buttermilk.html">Masala Buttermilk</a>
+              <a href="Date Buttermilk.html">Date Buttermilk</a>
+              <a href="Ragi Buttermilk.html">Ragi Buttermilk</a>
+              <a href="Sabja Lassi.html">Sabja Lassi</a>
+              <a href="Buttermilk.html">Buttermilk</a>
+              <a href="Nimbu Sabja.html">Nimbu Sabja</a>
+              <a href="Nimbu Pudina.html">Nimbu Pudina</a>
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="dropdown-category">
+            <div class="cat-label">
+              Wellness Drinks
+              <span class="cat-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+            </div>
+            <div class="dropdown-level2">
+              <a href="Ginger Shot.html">Ginger Shot</a>
+              <a href="Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+              <a href="Amla Shot.html">Amla Shot</a>
+              <a href="Neem Shot.html">Neem Shot</a>
+              <a href="Moringa Shot.html">Moringa Shot</a>
+              <a href="Wheatgrass Shot.html">Wheatgrass Shot</a>
+              <a href="Barley Drink.html">Barley Drink</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <a href="../index.html#read">Read</a>
+      <a href="javascript:void(0)" onclick="openContact()">Contact</a>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#home" onclick="toggleMenu()">Home</a>
+
+    <div class="mobile-dropdown">
+      <div class="mobile-dropdown-title" onclick="toggleMobileDropdown('drinksList')">
+        Drinks <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="mobile-dropdown-links" id="drinksList">
+
+        <div class="mobile-category-title" onclick="toggleMobileDropdown('mTradList')">
+          Traditional Drinks <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="mobile-sub-links" id="mTradList">
+          <a href="Jeera Buttermilk.html">Jeera Buttermilk</a>
+          <a href="Masala Buttermilk.html">Masala Buttermilk</a>
+          <a href="Date Buttermilk.html">Date Buttermilk</a>
+          <a href="Ragi Buttermilk.html">Ragi Buttermilk</a>
+          <a href="Sabja Lassi.html">Sabja Lassi</a>
+          <a href="Buttermilk.html">Buttermilk</a>
+          <a href="Nimbu Sabja.html">Nimbu Sabja</a>
+          <a href="Nimbu Pudina.html">Nimbu Pudina</a>
+        </div>
+
+        <div class="mobile-category-title" onclick="toggleMobileDropdown('mWellList')">
+          Wellness Drinks <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <div class="mobile-sub-links" id="mWellList">
+          <a href="Ginger Shot.html">Ginger Shot</a>
+          <a href="Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+          <a href="Amla Shot.html">Amla Shot</a>
+          <a href="Neem Shot.html">Neem Shot</a>
+          <a href="Moringa Shot.html">Moringa Shot</a>
+          <a href="Wheatgrass Shot.html">Wheatgrass Shot</a>
+          <a href="Barley Drink.html">Barley Drink</a>
+        </div>
+
+      </div>
+    </div>
+
+    <a href="../index.html#read" onclick="toggleMenu()">Read</a>
+    <a href="javascript:void(0)" onclick="openContact();toggleMenu()">Contact</a>
+  </div>
+
+  <!-- Standardized Contact Popup -->
+  <div class="contact-overlay" id="contactOverlay" onclick="closeContact()">
+    <div class="contact-form" onclick="event.stopPropagation()">
+      <button class="close-btn" onclick="closeContact()">✕</button>
+      <h2>Contact Us</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Enter Your Name" required>
+        <input type="tel" id="number" placeholder="Enter Phone Number" required>
+        <input type="email" id="email" placeholder="Enter Email" required>
+        <textarea id="message" placeholder="Enter Your Message" required></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <section class="hero container">
+    <div class="hero-left">
+      <img src="https://i.ibb.co/CsmVtxTg/Masala-Buttermilk-544x652.png" class="bottle"
+        alt="Masala Buttermilk Drink Bottle">
+    </div>
+
+    <div class="hero-right">
+      <h1>Masala Buttermilk</h1>
+      <p class="tagline">The spicy, cooling punch for a tired afternoon.</p>
+
+      <span class="small-label">INGREDIENTS</span>
+
+      <div class="ingredients">
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/water.jpeg" alt="Water">
+          </div>
+          <span>Water</span>
+        </div>
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/curd.jpeg" alt="Curd">
+          </div>
+          <span>Curd</span>
+        </div>
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/ginger2.jpeg" alt="Ginger">
+          </div>
+          <span>Ginger</span>
+        </div>
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/curryleaf.jpeg" alt="Curry Leaves">
+          </div>
+          <span>Curry Leaves</span>
+        </div>
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/chillie.png" alt="Chillies">
+          </div>
+          <span>Coriander Chillies</span>
+        </div>
+        <div class="ingredient">
+          <div class="circle">
+            <img src="images/salt2.jpeg" alt="Salt">
+          </div>
+          <span>Salt</span>
+        </div>
+      </div>
+
+      <div class="special">
+        <h2>What’s Special About This Drink?</h2>
+        <p>Masala Buttermilk is often thought of as the original energy drink prepared in traditional kitchens. It is a
+          bold and flavorful blend of cooling curd, ginger for warmth, and the sharp taste of fresh green chilies and
+          curry leaves. It does more than just hydrate; it provides a refreshing kick that wakes up your system. We have
+          kept the spice profile authentic and the texture honest, staying true to the recipe that was always waiting
+          for you at home.</p>
+        <p>At Shake & Gulp, we prioritize pure and real ingredients without using artificial additives, ensuring a
+          timeless recipe is available for your modern routine.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info container">
+    <div class="info-block">
+      <h3>Health Benefits</h3>
+      <ul class="tick-list two-column">
+        <li>Supports digestion naturally after a heavy or rich meal</li>
+        <li>Helps the body cool down and stay hydrated with a savory flavor profile</li>
+        <li>Contains house-made curd which is rich in probiotics for gut wellness</li>
+        <li>Includes ginger and chilies that provide a natural way to feel revitalized</li>
+        <li>Useful for balancing your system after consuming spicy or oily foods</li>
+      </ul>
+      <p class="note">A savory and cooling tradition in every bottle.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>Who Should Drink This?</h3>
+      <ul class="tick-list two-column">
+        <li>Afternoons when you’re feeling sluggish and need a savory wake-up</li>
+        <li>When you're dealing with that heavy, bloated feeling after a party</li>
+        <li>On sweltering days when you need something more than water</li>
+        <li>If you love the traditional flavors of ginger, chilies, and curry leaves</li>
+        <li>Anyone seeking a traditional, spicy alternative to sugary drinks</li>
+      </ul>
+      <p>A natural way to revive your system.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>Roots Of The Ritual</h3>
+      <p>Masala Buttermilk is the vibrant, spiced-up version of the classic 'Chaas', reflecting the rich diversity of
+        traditional Indian flavors. With a blend of ginger, green chilies, and coriander, it was the drink of choice to
+        revive the senses and aid digestion after a heavy feast. This ritual is a celebration of the spice-rich heritage
+        of our ancestors, who knew exactly how to use the gifts of the earth to keep the body energized and the gut
+        happy.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>How To Enjoy</h3>
+      <ul class="tick-list two-column">
+        <li>Shake the bottle well so the spices and herbs are mixed evenly</li>
+        <li>Best served chilled to enjoy the contrast between the spice and the cold curd</li>
+        <li>Enjoy it after a meal or whenever you need a mid-afternoon refresh</li>
+        <li>Sip it slowly to appreciate the blend of herbs and cooling buttermilk</li>
+      </ul>
+      <p><strong>Shake well and enjoy fresh.</strong></p>
+    </div>
+  </section>
+
+  <section class="suggest container">
+    <h2 class="center-title">You May Also Like</h2>
+    <div class="center-cards">
+      <div class="card" onclick="location.href='Jeera Buttermilk.html'" style="cursor: pointer;">
+        <img src="https://i.ibb.co/7dPpVxrY/Jeera-butermilk-shots-544x652.png" alt="Jeera Buttermilk">
+        <p>Jeera Buttermilk</p>
+      </div>
+      <div class="card" onclick="location.href='Buttermilk.html'" style="cursor: pointer;">
+        <img src="https://i.ibb.co/V0w5CkMV/Buttermilk-544x652.png" alt="Buttermilk">
+        <p>Buttermilk</p>
+      </div>
+      <div class="card" onclick="location.href='Date Buttermilk.html'" style="cursor: pointer;">
+        <img src="https://i.ibb.co/4wRH7CC0/Date-Buttermilk-544x652.png" alt="Date Buttermilk">
+        <p>Date Buttermilk</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="custom-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <h2>Shake & Gulp</h2>
+        <p>Traditional Drinks. Honest Ingredients.</p>
+        <img src="../fssai.png" alt="FSSAI Logo"
+          style="width: 180px; position: absolute; top: 80px; left: 0; display: block;">
+      </div>
+      <div class="footer-middle">
+        <p>📍 Address : 1-8-143, New Municipal Colony, Ganeshpuri Colony, Dilsukhnagar, Hyderabad</p>
+        <p>📞 Phone Number : <a href="tel:+919700159200" style="color: inherit; text-decoration: none;">9700159200</a></p>
+        <p>📧 Email : <a href="mailto:info@shakeandgulp.in" style="color: inherit; text-decoration: none;">info@shakeandgulp.in</a></p>
+      </div>
+      <div class="footer-right">
+        <h3>Quick Links</h3>
+        <ul>
+          <li onclick="location.href='../index.html#home'">• Home</li>
+          <li onclick="location.href='../index.html#traditional'">• Flavours</li>
+          <li onclick="location.href='../index.html#wellness'">• Wellness</li>
+          <li onclick="location.href='../index.html#read'">• Read</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom"> © Shake & Gulp — Shake Well. Gulp Fresh. </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("active");
+    }
+
+    function toggleMobileDropdown(id) {
+      const menu = document.getElementById(id);
+      menu.classList.toggle("active");
+    }
+
+    function openContact() {
+      document.getElementById("contactOverlay").classList.add("active");
+    }
+
+    function closeContact() {
+      document.getElementById("contactOverlay").classList.remove("active");
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("YOUR_PUBLIC_KEY");
+    })();
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      emailjs.send("service_336uilp", "YOUR_TEMPLATE_ID", {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("number").value,
+        email: document.getElementById("email").value
+      })
+        .then(function () {
+          alert("Message Sent Successfully!");
+          closeContact();
+        });
+    });
+  </script>
+  <a href="Jeera Buttermilk.html" class="nav-arrow nav-arrow-left">&#10094;</a>
+  <a href="Date Buttermilk.html" class="nav-arrow nav-arrow-right">&#10095;</a>
+</body>
+
+</html>

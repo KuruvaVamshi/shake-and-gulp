@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layered Bottle Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =============================
+           GLOBAL RESET
+        ============================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        /* =============================
+           GLASS NAVBAR (UPDATED)
+        ============================= */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: none;
+            padding: 16px 70px;
+            border-radius: 50px;
+            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: auto;
+        }
+
+        /* =============================
+           LEVEL-1 DROPDOWN (Drinks)
+        ============================= */
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            min-width: 220px;
+            padding: 10px;
+            border-radius: 18px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 200;
+        }
+
+        /* Hover bridge */
+        .dropdown::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+        }
+
+        .nav-item:hover>.dropdown {
+            opacity: 1;
+            transform: translateX(-50%) translateY(8px);
+            pointer-events: auto;
+        }
+
+        .dropdown a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            font-size: 14px;
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background 0.2s, padding-left 0.2s;
+            white-space: nowrap;
+        }
+
+        .dropdown a:hover {
+            background: rgba(0, 0, 0, 0.06);
+            padding-left: 18px;
+        }
+
+        .dropdown-category {
+            position: relative;
+        }
+
+        .dropdown-category>.cat-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            border-radius: 10px;
+            cursor: default;
+            transition: background 0.2s;
+        }
+
+        .dropdown-category:hover>.cat-label {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .cat-arrow {
+            font-size: 10px;
+            opacity: 0.5;
+            margin-left: 8px;
+        }
+
+        /* =============================
+           LEVEL-2 DROPDOWN (sub-list)
+        ============================= */
+        .dropdown-level2 {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            transform: translateX(10px);
+            min-width: 200px;
+            padding: 10px;
+            border-radius: 18px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 201;
+        }
+
+        /* Side bridge */
+        .dropdown-level2::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -15px;
+            width: 15px;
+            height: 100%;
+        }
+
+        .dropdown-category:hover>.dropdown-level2 {
+            opacity: 1;
+            transform: translateX(5px);
+            pointer-events: auto;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.08);
+            margin: 6px 10px;
+        }
+
+        /* =============================
+           NAVBAR BACKGROUND BLUR
+        ============================= */
+        .nav-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+            z-index: 50;
+        }
+
+        body:has(.nav-item:hover) .nav-blur {
+            opacity: 1;
+        }
+
+        /* =============================
+           TEXT LAYER 1
+        ============================= */
+        .hero-text {
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #000;
+            font-size: 60px;
+            font-weight: 700;
+            z-index: 1;
+            line-height: 1.05;
+        }
+
+        /* =============================
+           BOTTLE LAYER 2
+        ============================= */
+        .bottle-container {
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: 0.6s ease;
+            will-change: transform;
+        }
+
+        .bottle {
+            width: 320px;
+            height: 500px;
+            /* Keep consistent height */
+            position: relative;
+            top: 0px;
+            left: 0px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* =============================
+           INGREDIENT LAYER 3
+        ============================= */
+        .ingredients {
+            position: absolute;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .ingredients img {
+            position: absolute;
+            transition: 0.5s ease;
+        }
+
+        .lemon {
+            width: 120px;
+            left: 202px;
+            bottom: 350px;
+        }
+
+        .mint {
+            width: 100px;
+            top: 200px;
+            right: -130px;
+        }
+
+        .jeera {
+            width: 120px;
+            bottom: 100px;
+            left: -30px;
+        }
+
+        /* =============================
+           GLASS ARROW BUTTONS
+        ============================= */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: #000;
+            font-size: 28px;
+            z-index: 4;
+            transition: 0.3s ease;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .arrow-left {
+            left: 60px;
+        }
+
+        .arrow-right {
+            right: 60px;
+        }
+
+        /* =============================
+           BOTTLE NAME & CONTENT
+        ============================= */
+        .bottle-name {
+            position: absolute;
+            bottom: 60px;
+            color: #000;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("https://i.ibb.co/fVFxwJb5/abstract-white-gray-grunge-texture-pattern-background-jpg-1.jpg") center/cover no-repeat;
+            z-index: -1;
+        }
+
+        .bottle-content {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            max-width: 300px;
+            font-size: 16px;
+            color: #000;
+            line-height: 1.6;
+            z-index: 5;
+            opacity: 1;
+            transition: 0.4s ease;
+        }
+
+        /* =============================
+           HOME EXPLORE BUTTON
+        ============================= */
+        .home-explore-btn {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+            padding: 14px 40px;
+            border-radius: 40px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #000;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-decoration: none;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transition: 0.4s ease;
+            z-index: 10;
+        }
+
+        .home-explore-btn:hover {
+            transform: scale(1.08);
+            transition: 0.3s ease;
+        }
+
+        /* =============================
+           PRODUCT SECTION
+        ============================= */
+        .product-section {
+            height: 100vh;
+            display: flex;
+        }
+
+        .product-left,
+        .product-right {
+            width: 50%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-left {
+            flex-direction: column;
+        }
+
+        .product-right {
+            flex-direction: column;
+            padding: 60px;
+            text-align: left;
+        }
+
+        .product-bottle {
+            width: 350px;
+        }
+
+        .product-name {
+            position: absolute;
+            bottom: 40px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .product-title {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .product-right h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .product-right p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 400px;
+        }
+
+        .explore-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            background: black;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .explore-btn:hover {
+            opacity: 0.8;
+        }
+
+        .home-section {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* =============================
+           SECOND PAGE TITLE
+        ============================= */
+        .second-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            background: #f8f4ed;
+        }
+
+        .section-title {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            width: 800px;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+
+        .left-half,
+        .right-half {
+            width: 50%;
+            background: transparent;
+        }
+
+        /* =============================
+           LOVE TO READ SECTION
+        ============================= */
+        .read-section {
+            min-height: 100vh;
+            background: #f8f4ed;
+            padding: 120px 80px;
+            position: relative;
+        }
+
+        .read-title {
+            position: absolute;
+            top: 60px;
+            left: 80px;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .read-cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-top: 120px;
+            flex-wrap: wrap;
+        }
+
+        .read-card {
+            width: 320px;
+            padding: 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: 0.4s ease;
+        }
+
+        .read-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .read-card img {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .read-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .read-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: black;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .read-btn:hover {
+            opacity: 0.8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* =============================
+           HOME FLOATING ANIMATION
+        ============================= */
+        .home-section .bottle-container {
+            animation: floatBottle 4s ease-in-out infinite !important;
+        }
+
+        .home-section .lemon {
+            animation: floatLemon 5s ease-in-out infinite;
+        }
+
+        .home-section .mint {
+            animation: floatMint 6s ease-in-out infinite;
+        }
+
+        .home-section .jeera {
+            animation: floatJeera 4.5s ease-in-out infinite;
+        }
+
+        @keyframes floatBottle {
+            0% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateY(-15px);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+        }
+
+        @keyframes floatLemon {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        @keyframes floatMint {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(-6deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        @keyframes floatJeera {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(4deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        /* =============================
+           PREMIUM BLACK FOOTER
+        ============================= */
+        .custom-footer {
+            background: #000;
+            color: #fff;
+            padding: 40px 60px 20px 60px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            max-width: 300px;
+            margin-left: 60px;
+            position: relative;
+        }
+
+        .footer-left h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .footer-left p {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-middle {
+            text-align: left;
+        }
+
+        .footer-middle p {
+            margin-bottom: 12px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .footer-right h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer-right ul {
+            list-style: none;
+        }
+
+        .footer-right ul li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.85;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .footer-right ul li:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        /* SIDE BOTTLES */
+        .side-bottle {
+            position: absolute;
+            top: 60%;
+            transform: translateY(-50%);
+            z-index: 2;
+            animation: floatBottle 4s ease-in-out infinite;
+        }
+
+        .left-bottle {
+            left: 32%;
+        }
+
+        .right-bottle {
+            right: 12%;
+        }
+
+        /* =============================
+           CONTACT FORM GLASS POPUP
+        ============================= */
+        .contact-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s;
+        }
+
+        .contact-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .contact-form {
+            width: 400px;
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+        }
+
+        .contact-form h2 {
+            margin-bottom: 25px;
+        }
+
+        .contact-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .contact-form textarea {
+            width: 100%;
+            height: 44px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            resize: none;
+            line-height: 20px;
+        }
+
+        .contact-form button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: black;
+            color: white;
+            cursor: pointer;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            border: none;
+            background: none;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* =============================
+           HAMBURGER MENU (UPDATED)
+        ============================= */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            padding: 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-dropdown-title {
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mobile-dropdown-links {
+            display: none;
+            flex-direction: column;
+            margin-top: 8px;
+            gap: 10px;
+        }
+
+        .mobile-dropdown-links.active {
+            display: flex;
+        }
+
+        .mobile-category-title {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 0;
+            margin-top: 4px;
+        }
+
+        .mobile-category-title:not(:first-of-type) {
+            padding-top: 8px;
+        }
+
+        .mobile-sub-links {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 14px;
+            margin-top: 6px;
+        }
+
+        .mobile-sub-links a {
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+        .mobile-sub-links.active {
+            display: flex;
+        }
+
+
+        /* =============================
+           LAPTOP & TABLET SCALING (10% - 25% SMALLER)
+        ============================= */
+        @media (max-width: 1600px) {
+            .hero-text {
+                font-size: 54px;
+            }
+
+            .bottle {
+                width: 300px;
+                height: 470px;
+            }
+
+            .left-bottle {
+                left: 33%;
+            }
+
+            .right-bottle {
+                right: 13%;
+            }
+
+            .lemon {
+                width: 110px;
+                left: 190px;
+                bottom: 330px;
+            }
+
+            .mint {
+                width: 90px;
+                top: 190px;
+                right: -120px;
+            }
+
+            .jeera {
+                width: 110px;
+                bottom: 95px;
+                left: -25px;
+            }
+
+            .arrow {
+                width: 55px;
+                height: 55px;
+                font-size: 26px;
+            }
+        }
+
+        @media (max-width: 1440px) {
+            .hero-text {
+                font-size: 48px;
+            }
+
+            .bottle {
+                width: 270px;
+                height: 420px;
+            }
+
+            .left-bottle {
+                left: 34%;
+            }
+
+            .right-bottle {
+                right: 14%;
+            }
+
+            .lemon {
+                width: 100px;
+                left: 165px;
+                bottom: 290px;
+            }
+
+            .mint {
+                width: 80px;
+                top: 170px;
+                right: -105px;
+            }
+
+            .jeera {
+                width: 100px;
+                bottom: 80px;
+                left: -18px;
+            }
+
+            .arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .bottle-name {
+                font-size: 18px;
+                bottom: 50px;
+            }
+
+            .bottle-content {
+                font-size: 14px;
+                bottom: 50px;
+                left: 40px;
+            }
+        }
+
+        @media (max-width: 1280px) {
+            .hero-text {
+                font-size: 42px;
+            }
+
+            .bottle {
+                width: 240px;
+                height: 380px;
+            }
+
+            .left-bottle {
+                left: 35%;
+            }
+
+            .right-bottle {
+                right: 16%;
+            }
+
+            .lemon {
+                width: 85px;
+                left: 150px;
+                bottom: 260px;
+            }
+
+            .mint {
+                width: 70px;
+                top: 150px;
+                right: -95px;
+            }
+
+            .jeera {
+                width: 85px;
+                bottom: 70px;
+                left: -12px;
+            }
+
+            .arrow-left {
+                left: 40px;
+            }
+
+            .arrow-right {
+                right: 40px;
+            }
+
+            .home-explore-btn {
+                bottom: 40px;
+                right: 40px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .hero-text {
+                font-size: 38px;
+            }
+
+            .bottle {
+                width: 220px;
+                height: 340px;
+            }
+
+            .left-bottle {
+                left: 36%;
+            }
+
+            .right-bottle {
+                right: 18%;
+            }
+
+            .lemon {
+                width: 75px;
+                left: 140px;
+                bottom: 240px;
+            }
+
+            .mint {
+                width: 60px;
+                top: 140px;
+                right: -85px;
+            }
+
+            .jeera {
+                width: 75px;
+                bottom: 60px;
+                left: -10px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-text {
+                font-size: 34px;
+            }
+
+            .bottle {
+                width: 200px;
+                height: 310px;
+            }
+
+            .left-bottle {
+                left: 37%;
+            }
+
+            .right-bottle {
+                right: 20%;
+            }
+
+            .lemon {
+                width: 70px;
+                left: 130px;
+                bottom: 220px;
+            }
+
+            .mint {
+                width: 55px;
+                top: 130px;
+                right: -80px;
+            }
+
+            .jeera {
+                width: 70px;
+                bottom: 55px;
+                left: -8px;
+            }
+
+            .arrow {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+        }
+
+        /* =============================
+           MOBILE OPTIMIZATION
+        ============================= */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .logo img {
+                width: 30px;
+            }
+
+            .hero-text {
+                font-size: 32px;
+                top: 24%;
+                width: 90%;
+            }
+
+            .side-bottle {
+                display: block;
+            }
+
+            .bottle-container {
+                top: 60%;
+                z-index: 3;
+            }
+
+            .home-section .bottle-container .bottle,
+            .home-section .side-bottle .bottle {
+                width: 220px;
+            }
+
+            .bottle {
+                width: 220px;
+                margin-top: 20px;
+            }
+
+            .left-bottle {
+                width: 90px !important;
+                left: 10%;
+                top: 59%;
+                transform: translate(-50%, -50%) scale(0.8);
+                z-index: 1;
+            }
+
+            .right-bottle {
+                right: -27%;
+                top: 59%;
+                transform: translate(50%, -50%) scale(0.8);
+                z-index: 1;
+            }
+
+            .lemon,
+            .mint,
+            .jeera {
+                display: none;
+            }
+
+            .arrow {
+                width: 55px;
+                height: 55px;
+                font-size: 22px;
+            }
+
+            .arrow-left {
+                left: 10px;
+            }
+
+            .arrow-right {
+                right: 10px;
+            }
+
+            .bottle-name {
+                bottom: 110px;
+                font-size: 14px;
+                text-align: center;
+                width: 100%;
+            }
+
+            .bottle-content {
+                bottom: 70px;
+                left: 20px;
+                right: 20px;
+                max-width: none;
+                font-size: 14px;
+            }
+
+            .home-explore-btn {
+                bottom: -30px;
+                right: 35%;
+                padding: 12px 28px;
+            }
+
+            .product-section {
+                flex-direction: column;
+                height: auto;
+                padding: 80px 20px;
+            }
+
+            .product-left,
+            .product-right {
+                width: 100%;
+            }
+
+            .product-right {
+                padding: 20px;
+                text-align: center;
+            }
+
+            .product-bottle {
+                width: 220px;
+            }
+
+            .product-name {
+                display: none;
+            }
+
+            .product-title {
+                font-size: 28px;
+            }
+
+            .product-right h2 {
+                font-size: 22px;
+            }
+
+            .section-title {
+                position: relative;
+                top: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+
+            .read-section {
+                padding: 100px 20px;
+            }
+
+            .read-title {
+                position: relative;
+                top: 0;
+                left: 0;
+                font-size: 28px;
+                text-align: center;
+            }
+
+            .read-cards {
+                gap: 25px;
+                margin-top: 40px;
+            }
+
+            .read-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .footer-left {
+                margin-left: 0;
+                max-width: none;
+            }
+
+            .footer-middle {
+                text-align: center;
+            }
+
+            .footer-middle p {
+                font-size: 15px;
+                margin-bottom: 15px;
+                line-height: 1.5;
+            }
+
+            .footer-right {
+                margin-top: 0;
+            }
+
+            .footer-right h3 {
+                margin-bottom: 20px;
+            }
+
+            .footer-right ul {
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-right ul li {
+                padding: 5px 0;
+                font-size: 16px;
+            }
+
+            .footer-bottom {
+                margin-top: 40px;
+                padding: 20px 10px;
+            }
+
+            .custom-footer {
+                padding: 60px 20px 30px 20px;
+            }
+
+            .footer-left img {
+                position: static !important;
+                margin: 30px auto 0 auto !important;
+                width: 220px !important;
+                opacity: 1 !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text {
+                font-size: 26px;
+            }
+
+            .bottle {
+                width: 190px;
+            }
+
+            .product-bottle {
+                width: 190px;
+            }
+
+            .read-card {
+                padding: 20px;
+            }
+        }
+
+        .fade-slide {
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                translate 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                scale 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .slide-out-left {
+            opacity: 0 !important;
+            translate: -150vw 0 !important;
+            scale: 0.5 !important;
+        }
+
+        .slide-out-right {
+            opacity: 0 !important;
+            translate: 150vw 0 !important;
+            scale: 0.5 !important;
+        }
+
+        .instant {
+            transition: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =============================
+         IMAGE PRELOADER
+    ============================= -->
+    <script>
+        // Preload all carousel images so switching is instant
+        (function () {
+            const preloadUrls = [
+                // Hero carousel – center bottles
+                "https://i.ibb.co/RTbRShy8/Jeera-butermilk-shots-577x616.png",
+                "https://i.ibb.co/cSnC7DSr/Ragi-577x616.png",
+                "https://i.ibb.co/0j2DSPV3/Amla-577x616.png",
+                "https://i.ibb.co/QFhZ9Brx/Gingger-Turmeric-shots-577x616.png",
+                // Hero carousel – left bottles
+                "https://i.ibb.co/S4gX0s5B/Buttermilk-577x616.png",
+                "https://i.ibb.co/MyznJBNH/Moringa-577x616.png",
+                "https://i.ibb.co/N21nQCHt/Neem-577x616.png",
+                "https://i.ibb.co/Qv890Xpq/Gingger-shots-577x616.png",
+                // Hero carousel – right bottles
+                "https://i.ibb.co/ksgJhZWV/Masala-Buttermilk-577x616.png",
+                "https://i.ibb.co/8gRPX35G/Sabja-Lassi-577x616.png",
+                "https://i.ibb.co/GffFLfbB/barley-bottle-577x616.png",
+                // Hero carousel – ingredient elements
+                "https://i.ibb.co/yF0gLj2T/element-1-without-blured.png",
+                "https://i.ibb.co/gM5z4Zb6/element-2-without-blured.png",
+                "https://i.ibb.co/1fMcKBxZ/element1-without-blured.png",
+                "https://i.ibb.co/WWjpsWsH/element2-without-blured.png",
+                "https://i.ibb.co/SWKpNbY/Element-1-without-blured.png",
+                "https://i.ibb.co/gMX9pstf/Element-2-without-blured.png",
+                "https://i.ibb.co/Nnr3kpJs/element-1-without-blured.png",
+                "https://i.ibb.co/CKWVMNXY/element-2-without-blured.png",
+                // Traditional products carousel
+                "https://i.ibb.co/7dPpVxrY/Jeera-butermilk-shots-544x652.png",
+                "https://i.ibb.co/4wRH7CC0/Date-Buttermilk-544x652.png",
+                "https://i.ibb.co/zVPTgrjw/Nimbu-pudina-544x652.png",
+                "https://i.ibb.co/QjQrDvRf/Ragi-544x652.png",
+                "https://i.ibb.co/93Gx7RXY/Sabja-Lassi-544x652.png",
+                "https://i.ibb.co/5XBZZR0g/Nimbu-Sabja-544x652.png",
+                "https://i.ibb.co/V0w5CkMV/Buttermilk-544x652.png",
+                "https://i.ibb.co/CsmVtxTg/Masala-Buttermilk-544x652.png",
+                // Wellness shots carousel
+                "https://i.ibb.co/Nv72jd4/Amla-shadow-elements-544x652.png",
+                "https://i.ibb.co/GQ08dSY6/Moringa-544x652.png",
+                "https://i.ibb.co/Ps3cPNPP/Neem-544x652.png",
+                "https://i.ibb.co/n8qjj6ZZ/Gingger-shots-544x652.png",
+                "https://i.ibb.co/wxcnDn5/Wheat-Grass-544x652.png",
+                "https://i.ibb.co/PZW0sHP1/Gingger-Turmeric-shots-544x652.png",
+                "https://i.ibb.co/67qt36GY/Barley-544x652.png",
+                // Wellness section initial
+                "https://i.ibb.co/Q3ZrycQ2/tmp-a06508df-02d5-4c89-a83f-fb0f5aaa6962.png",
+                // Background
+                "https://i.ibb.co/fVFxwJb5/abstract-white-gray-grunge-texture-pattern-background-jpg-1.jpg"
+            ];
+            preloadUrls.forEach(function (url) {
+                var img = new Image();
+                img.src = url;
+            });
+        })();
+    </script>
+
+    <section class="home-section" id="home">
+
+        <div class="nav-blur"></div>
+
+        <div class="navbar">
+            <div class="logo" onclick="location.href='index.html'" style="cursor: pointer;">
+                <img src="https://i.ibb.co/cSXcmScQ/Shake-Gulp-Logo.png" alt="Logo">
+            </div>
+
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+            <div class="nav-links">
+                <a href="#home">Home</a>
+
+                <div class="nav-item">
+                    <a href="#">Drinks</a>
+                    <div class="dropdown">
+
+                        <div class="dropdown-category">
+                            <div class="cat-label">
+                                Traditional Drinks
+                                <span class="cat-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                            </div>
+                            <div class="dropdown-level2">
+                                <a href="drinks/Jeera Buttermilk.html">Jeera Buttermilk</a>
+                                <a href="drinks/Masala Buttermilk.html">Masala Buttermilk</a>
+                                <a href="drinks/Date Buttermilk.html">Date Buttermilk</a>
+                                <a href="drinks/Ragi Buttermilk.html">Ragi Buttermilk</a>
+                                <a href="drinks/Sabja Lassi.html">Sabja Lassi</a>
+                                <a href="drinks/Buttermilk.html">Buttermilk</a>
+                                <a href="drinks/Nimbu Sabja.html">Nimbu Sabja</a>
+                                <a href="drinks/Nimbu Pudina.html">Nimbu Pudina</a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+                        <div class="dropdown-category">
+                            <div class="cat-label">
+                                Wellness Drinks
+                                <span class="cat-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                            </div>
+                            <div class="dropdown-level2">
+                                <a href="drinks/Ginger Shot.html">Ginger Shot</a>
+                                <a href="drinks/Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+                                <a href="drinks/Amla Shot.html">Amla Shot</a>
+                                <a href="drinks/Neem Shot.html">Neem Shot</a>
+                                <a href="drinks/Moringa Shot.html">Moringa Shot</a>
+                                <a href="drinks/Wheatgrass Shot.html">Wheatgrass Shot</a>
+                                <a href="drinks/Barley Drink.html">Barley Drink</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <a href="#read">Read</a>
+                <a href="#" onclick="openContact()">Contact</a>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#home" onclick="toggleMenu()">Home</a>
+
+            <div class="mobile-dropdown">
+                <div class="mobile-dropdown-title" onclick="toggleMobileDropdown('drinksList')">
+                    Drinks <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="mobile-dropdown-links" id="drinksList">
+
+                    <div class="mobile-category-title" onclick="toggleMobileDropdown('mTradList')">
+                        Traditional Drinks <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="mobile-sub-links" id="mTradList">
+                        <a href="drinks/Jeera Buttermilk.html">Jeera Buttermilk</a>
+                        <a href="drinks/Masala Buttermilk.html">Masala Buttermilk</a>
+                        <a href="drinks/Date Buttermilk.html">Date Buttermilk</a>
+                        <a href="drinks/Ragi Buttermilk.html">Ragi Buttermilk</a>
+                        <a href="drinks/Sabja Lassi.html">Sabja Lassi</a>
+                        <a href="drinks/Buttermilk.html">Buttermilk</a>
+                        <a href="drinks/Nimbu Sabja.html">Nimbu Sabja</a>
+                        <a href="drinks/Nimbu Pudina.html">Nimbu Pudina</a>
+                    </div>
+
+                    <div class="mobile-category-title" onclick="toggleMobileDropdown('mWellList')">
+                        Wellness Drinks <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="mobile-sub-links" id="mWellList">
+                        <a href="drinks/Ginger Shot.html">Ginger Shot</a>
+                        <a href="drinks/Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+                        <a href="drinks/Amla Shot.html">Amla Shot</a>
+                        <a href="drinks/Neem Shot.html">Neem Shot</a>
+                        <a href="drinks/Moringa Shot.html">Moringa Shot</a>
+                        <a href="drinks/Wheatgrass Shot.html">Wheatgrass Shot</a>
+                        <a href="drinks/Barley Drink.html">Barley Drink</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <a href="#read" onclick="toggleMenu()">Read</a>
+            <a href="#" onclick="openContact();toggleMenu()">Contact</a>
+        </div>
+
+        <div class="background"></div>
+        <div class="hero-text" id="homeTitle">SHAKE THE SPICE <br> GULP THE COOL</div>
+
+        <div class="bottle-container">
+            <img id="bottleImage" class="bottle" src="https://i.ibb.co/RTbRShy8/Jeera-butermilk-shots-577x616.png">
+            <div class="ingredients">
+                <img id="lemonImg" class="lemon" src="https://i.ibb.co/yF0gLj2T/element-1-without-blured.png">
+                <img id="mintImg" class="mint" src="">
+                <img id="jeeraImg" class="jeera" src="https://i.ibb.co/gM5z4Zb6/element-2-without-blured.png">
+            </div>
+        </div>
+
+        <div class="side-bottle left-bottle">
+            <img id="leftBottleImg" src="https://i.ibb.co/S4gX0s5B/Buttermilk-577x616.png" class="bottle">
+        </div>
+
+        <div class="side-bottle right-bottle">
+            <img id="rightBottleImg" src="https://i.ibb.co/ksgJhZWV/Masala-Buttermilk-577x616.png" class="bottle">
+        </div>
+
+        <div class="arrow arrow-left" onclick="prevBottle()">&#10094;</div>
+        <div class="arrow arrow-right" onclick="nextBottle()">&#10095;</div>
+
+        <div id="bottleName" class="bottle-name">Buttermilk • Jeera Buttermilk • Masala Buttermilk</div>
+        <div id="bottleContent" class="bottle-content"></div>
+
+    </section>
+
+    <a href="#traditional" class="home-explore-btn">EXPLORE</a>
+
+    <section class="product-section" id="traditional">
+        <div class="product-left">
+            <div class="section-title">Traditional Drinks</div>
+            <div class="bottle-wrapper">
+                <img id="productBottleImage" src="https://i.ibb.co/7dPpVxrY/Jeera-butermilk-shots-544x652.png"
+                    class="product-bottle">
+            </div>
+            <div class="arrow arrow-left" onclick="prevProductBottle()">&#10094;</div>
+            <div class="arrow arrow-right" onclick="nextProductBottle()">&#10095;</div>
+            <div id="productBottleName" class="product-name">Jeera Buttermilk</div>
+        </div>
+        <div class="product-right">
+            <h1 class="product-title">Our Signature Blend</h1>
+            <h2 id="productTitleName">Jeera Buttermilk</h2>
+            <p id="productContent"> Ingredients: Curd • Water • Salt • Roasted Jeera (Cumin) Powder.<br> A soothing
+                traditional cooler infused with the gentle warmth of roasted cumin. </p>
+            <button id="exploreBtn" class="explore-btn">Explore</button>
+        </div>
+    </section>
+
+    <section class="product-section" id="wellness">
+        <div class="product-left">
+            <div class="section-title">Wellness Shots</div>
+            <div class="bottle-wrapper">
+                <img id="shotBottle" src="https://i.ibb.co/Q3ZrycQ2/tmp-a06508df-02d5-4c89-a83f-fb0f5aaa6962.png"
+                    class="product-bottle">
+            </div>
+            <div class="arrow arrow-left" onclick="prevShot()">&#10094;</div>
+            <div class="arrow arrow-right" onclick="nextShot()">&#10095;</div>
+            <div id="shotName" class="product-name">Ginger Shot</div>
+        </div>
+        <div class="product-right">
+            <h1 class="product-title">Wellness Collection</h1>
+            <h2 id="shotTitle">Ginger Shot</h2>
+            <p id="shotContent">Boost immunity and digestion with strong ginger extract.</p>
+            <button id="shotExplore" class="explore-btn">Explore</button>
+        </div>
+    </section>
+
+    <section class="read-section" id="read">
+        <div class="read-title">Love To Read</div>
+        <div class="read-cards">
+            <div class="read-card">
+                <img src="https://raw.githubusercontent.com/vatsalvarma/SHAKE-GULP/refs/heads/main/green-aloveradrink.jpeg"
+                    alt="Health Article">
+                <h3>Benefits Of Traditional Drinks</h3>
+                <p>Discover how age-old Indian beverages boost immunity and digestion naturally.</p>
+                <a href="readmore-pages/Benefits of Traditional Drinks.html">
+                    <button class="read-btn">Read More</button>
+                </a>
+            </div>
+            <div class="read-card">
+                <img src="https://raw.githubusercontent.com/vatsalvarma/SHAKE-GULP/refs/heads/main/pinkstrawbery%20drink.jpeg"
+                    alt="Wellness Guide">
+                <h3>Power Of Wellness Shots</h3>
+                <p>Explore how small daily shots can transform your energy and metabolism.</p>
+                <a href="readmore-pages/Power of Wellness Shots.html">
+                    <button class="read-btn">Read More</button>
+                </a>
+            </div>
+            <div class="read-card">
+                <img src="https://raw.githubusercontent.com/vatsalvarma/SHAKE-GULP/refs/heads/main/greencucumberdrink.jpeg"
+                    alt="Ayurveda Blog">
+                <h3>Ayurveda & Modern Health</h3>
+                <p>Understand the science behind ancient herbs and natural healing systems.</p>
+                <a href="readmore-pages/Ayurveda & Modern Health.html">
+                    <button class="read-btn">Read More</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="custom-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Shake & Gulp</h2>
+                <p>Traditional Drinks. Honest Ingredients.</p>
+                <img src="fssai.png" alt="FSSAI Logo"
+                    style="width: 180px; position: absolute; top: 80px; left: 0; display: block;">
+            </div>
+            <div class="footer-middle">
+                <p>📍 Address : 1-8-143, New Municipal Colony, Ganeshpuri Colony, Dilsukhnagar, Hyderabad</p>
+                <p>📞 Phone Number : <a href="tel:+919700159200"
+                        style="color: inherit; text-decoration: none;">9700159200</a></p>
+                <p>📧 Email : <a href="mailto:info@shakeandgulp.in"
+                        style="color: inherit; text-decoration: none;">info@shakeandgulp.in</a></p>
+            </div>
+            <div class="footer-right">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li onclick="location.href='#home'">• Home</li>
+                    <li onclick="location.href='#traditional'">• Flavours</li>
+                    <li onclick="location.href='#wellness'">• Wellness</li>
+                    <li onclick="location.href='#read'">• Read</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"> © Shake & Gulp — Shake Well. Gulp Fresh. </div>
+    </footer>
+
+    <div id="contactOverlay" class="contact-overlay">
+        <div class="contact-form">
+            <button class="close-btn" onclick="closeContact()">✕</button>
+            <h2>Contact Us</h2>
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Enter Your Name" required>
+                <input type="tel" id="number" placeholder="Enter Phone Number" required>
+                <input type="email" id="email" placeholder="Enter Email" required>
+                <textarea id="message" placeholder="Enter Your Message" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("YOUR_PUBLIC_KEY");
+        })();
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            emailjs.send("service_336uilp", "YOUR_TEMPLATE_ID", {
+                name: document.getElementById("name").value,
+                phone: document.getElementById("number").value,
+                email: document.getElementById("email").value
+            })
+                .then(function () {
+                    alert("Message Sent Successfully!");
+                    closeContact();
+                });
+        });
+    </script>
+    <script>
+        /* =============================       BOTTLE DATA    ============================= */
+        const bottles = [
+
+            {
+                homeTitle: "SHAKE THE SPICE <br> GULP THE COOL",
+                name: "Buttermilk • Jeera Buttermilk • Masala Buttermilk",
+                bottle: "https://i.ibb.co/RTbRShy8/Jeera-butermilk-shots-577x616.png",
+                leftBottle: "https://i.ibb.co/S4gX0s5B/Buttermilk-577x616.png",
+                rightBottle: "https://i.ibb.co/ksgJhZWV/Masala-Buttermilk-577x616.png",
+                leftPosition: "28%",
+                rightPosition: "15%",
+                centerScale: "1",
+                lemon: "https://i.ibb.co/yF0gLj2T/element-1-without-blured.png",
+                mint: "",
+                jeera: "https://i.ibb.co/gM5z4Zb6/element-2-without-blured.png",
+                content: " "
+            }, {
+                homeTitle: "SHAKE THE GOODNESS <br> GULP THE NOURISHMENT",
+                name: "Sweet Buttermilk • Ragi Buttermilk • Sabja Lassi",
+                bottle: "https://i.ibb.co/cSnC7DSr/Ragi-577x616.png",
+                leftBottle: "https://i.ibb.co/MyznJBNH/Moringa-577x616.png",
+                rightBottle: "https://i.ibb.co/8gRPX35G/Sabja-Lassi-577x616.png",
+                leftPosition: "30%",
+                rightPosition: "18%",
+                centerScale: "1.05",
+                lemon: "https://i.ibb.co/1fMcKBxZ/element1-without-blured.png",
+                mint: "",
+                jeera: "https://i.ibb.co/WWjpsWsH/element2-without-blured.png",
+                content: ""
+            },
+            {
+                homeTitle: "SHAKE THE ROOTS <br> GULP THE RITUAL",
+                name: "Neem Shot • Amla Shot • Moringa Shot",
+                bottle: "https://i.ibb.co/0j2DSPV3/Amla-577x616.png",
+                leftBottle: "https://i.ibb.co/N21nQCHt/Neem-577x616.png",
+                rightBottle: "https://i.ibb.co/MyznJBNH/Moringa-577x616.png",
+                leftPosition: "32%",
+                rightPosition: "20%",
+                centerScale: "1",
+                lemon: "https://i.ibb.co/SWKpNbY/Element-1-without-blured.png",
+                mint: "",
+                jeera: "https://i.ibb.co/gMX9pstf/Element-2-without-blured.png",
+                content: " "
+            },
+            {
+                homeTitle: "SHAKE THE POWER <br> GULP THE BOOST",
+                name: "Ginger Shot • Ginger Turmeric Shot • Barley Drink",
+                bottle: "https://i.ibb.co/QFhZ9Brx/Gingger-Turmeric-shots-577x616.png",
+                leftBottle: "https://i.ibb.co/Qv890Xpq/Gingger-shots-577x616.png",
+                rightBottle: "https://i.ibb.co/GffFLfbB/barley-bottle-577x616.png",
+                leftPosition: "25%",
+                rightPosition: "12%",
+                centerScale: "1.1",
+                lemon: "https://i.ibb.co/Nnr3kpJs/element-1-without-blured.png",
+                mint: "",
+                jeera: "https://i.ibb.co/CKWVMNXY/element-2-without-blured.png",
+                content: ""
+            }
+        ];
+        let index = 0;
+
+        function updateBottle() {
+            const total = bottles.length;
+            if (index >= total) index = 0;
+            if (index < 0) index = total - 1;
+            const current = bottles[index];
+            document.getElementById("homeTitle").innerHTML = current.homeTitle;
+            document.getElementById("leftBottleImg").src = current.leftBottle;
+            document.getElementById("rightBottleImg").src = current.rightBottle;
+            document.getElementById("bottleImage").src = current.bottle;
+            document.getElementById("bottleName").innerText = current.name;
+            document.getElementById("bottleContent").innerText = current.content;
+            document.getElementById("lemonImg").src = current.lemon;
+            document.getElementById("mintImg").src = current.mint;
+            document.getElementById("jeeraImg").src = current.jeera;
+        }
+
+        /* =============================
+           CAROUSEL TRANSITION CONTROLLER
+        ============================= */
+        let isAnimating = { home: false, traditional: false, wellness: false };
+
+        function animateCarousel(section, elements, dir, updateCallback) {
+            if (isAnimating[section]) return;
+            isAnimating[section] = true;
+
+            const outClass = dir === 'next' ? 'slide-out-left' : 'slide-out-right';
+            const inClass = dir === 'next' ? 'slide-out-right' : 'slide-out-left';
+
+            // 1. Slide everything out
+            elements.forEach(el => {
+                if (el) {
+                    el.classList.add('fade-slide');
+                    el.classList.add(outClass);
+                }
+            });
+
+            // 2. Wait for slide-out to finish (550 ms)
+            setTimeout(() => {
+                // Swap content while invisible
+                updateCallback();
+
+                // 3. Teleport to the opposite side instantly (small scale, off-screen)
+                elements.forEach(el => {
+                    if (el) {
+                        el.classList.add('instant');
+                        el.classList.remove(outClass);
+                        el.classList.add(inClass);
+                    }
+                });
+
+                // Force browser to register the instant move before re-enabling transitions
+                void elements[0].offsetWidth;
+
+                // 4. Slide back into centre — scale grows to 1 automatically (no class = default)
+                elements.forEach(el => {
+                    if (el) {
+                        el.classList.remove('instant');
+                        el.classList.remove(inClass);
+                    }
+                });
+
+                // 5. Clean up and unlock
+                setTimeout(() => {
+                    elements.forEach(el => {
+                        if (el) el.classList.remove('fade-slide');
+                    });
+                    isAnimating[section] = false;
+                }, 300);
+
+            }, 300);
+        }
+
+        /* =============================
+           HOME CAROUSEL (HERO)
+        ============================= */
+        function getHomeElements() {
+            return [
+                document.getElementById("homeTitle"),
+                document.querySelector(".bottle-container"),
+                document.querySelector(".left-bottle"),
+                document.querySelector(".right-bottle"),
+                document.getElementById("bottleName"),
+                document.getElementById("bottleContent")
+            ];
+        }
+
+        function nextBottle() {
+            animateCarousel('home', getHomeElements(), 'next', () => {
+                index = (index + 1) % bottles.length;
+                updateBottle();
+            });
+        }
+
+        function prevBottle() {
+            animateCarousel('home', getHomeElements(), 'prev', () => {
+                index = (index - 1 + bottles.length) % bottles.length;
+                updateBottle();
+            });
+        }
+
+        const productBottles = [{
+            name: "Jeera butermilk",
+            bottle: "https://i.ibb.co/7dPpVxrY/Jeera-butermilk-shots-544x652.png",
+            content: " Ingredients: Curd • Water • Salt • Roasted Jeera (Cumin) Powder. \nA soothing traditional cooler infused with the gentle warmth of roasted cumin.",
+            link: "drinks/Jeera Buttermilk.html"
+        }, {
+            name: "Date Buttermilk",
+            bottle: "https://i.ibb.co/4wRH7CC0/Date-Buttermilk-544x652.png",
+            content: "Ingredients: Dates • Curd • Water. \nA naturally sweet, nourishing drink that blends cooling buttermilk with the goodness of dates.",
+            link: "drinks/Date Buttermilk.html"
+        }, {
+            name: "Nimbu Pudina",
+            bottle: "https://i.ibb.co/zVPTgrjw/Nimbu-pudina-544x652.png",
+            content: "Ingredients: Lemon • Fresh Mint (Pudina) • Water • Natural Sweetener • A pinch of Salt. \nA lively, cooling drink that blends citrus brightness with the refreshing lift of mint.",
+            link: "drinks/Nimbu Pudina.html"
+        }, {
+            name: "Ragi Buttermilk",
+            bottle: "https://i.ibb.co/QjQrDvRf/Ragi-544x652.png",
+            content: "Ingredients: Ragi (Finger Millet) • Curd • Water • Salt \nA nourishing blend of traditional millet and cooling buttermilk.",
+            link: "drinks/Ragi Buttermilk.html"
+        }, {
+            name: "Sabja Lassi",
+            bottle: "https://i.ibb.co/93Gx7RXY/Sabja-Lassi-544x652.png",
+            content: "Ingredients: Curd • Water • Sabja (Basil) Seeds • Natural Sweetener. \nA creamy, cooling drink that blends traditional lassi with the soothing power of sabja seeds.",
+            link: "drinks/Sabja Lassi.html"
+        }, {
+            name: "Nimbu Sabja",
+            bottle: "https://i.ibb.co/5XBZZR0g/Nimbu-Sabja-544x652.png",
+            content: "Ingredients: Lemon • Sabja (Basil) Seeds • Water • Natural Sweetener • \nA pinch of Salt. A zesty, cooling drink that combines citrus freshness with the soothing power of sabja seeds.",
+            link: "drinks/Nimbu Sabja.html"
+        }, {
+            name: "Buttermilk",
+            bottle: "https://i.ibb.co/V0w5CkMV/Buttermilk-544x652.png",
+            content: "Ingredients: Curd • Water • Salt. \nA light, traditional Indian cooler made for everyday balance.",
+            link: "drinks/Buttermilk.html"
+        }, {
+            name: "Masala Buttermilk",
+            bottle: "https://i.ibb.co/CsmVtxTg/Masala-Buttermilk-544x652.png",
+            content: "Ingredients: Curd • Water • Ginger • Curry Leaves • Coriander Leaves • Green Chillies • Salt \nA spiced traditional cooler that refreshes the body while gently supporting digestion",
+            link: "drinks/Masala Buttermilk.html"
+        }];
+        let productIndex = 0;
+
+        function updateProductBottle() {
+            const bottle = productBottles[productIndex];
+            document.getElementById("productBottleImage").src = bottle.bottle;
+            document.getElementById("productBottleName").innerText = bottle.name;
+            document.getElementById("productTitleName").innerText = bottle.name;
+            document.getElementById("productContent").innerText = bottle.content;
+            document.getElementById("exploreBtn").onclick = function () {
+                window.location.href = bottle.link;
+            };
+            document.getElementById("productBottleImage").onclick = function () {
+                window.location.href = bottle.link;
+            };
+        }
+
+        /* =============================
+           TRADITIONAL DRINKS CAROUSEL
+        ============================= */
+        function getTraditionalElements() {
+            return [
+                document.getElementById("productBottleImage"),
+                document.getElementById("productBottleName"),
+                document.getElementById("productTitleName"),
+                document.getElementById("productContent")
+            ];
+        }
+
+        function nextProductBottle() {
+            animateCarousel('traditional', getTraditionalElements(), 'next', () => {
+                productIndex = (productIndex + 1) % productBottles.length;
+                updateProductBottle();
+            });
+        }
+
+        function prevProductBottle() {
+            animateCarousel('traditional', getTraditionalElements(), 'prev', () => {
+                productIndex = (productIndex - 1 + productBottles.length) % productBottles.length;
+                updateProductBottle();
+            });
+        }
+
+        const shots = [{
+            name: "Amla Shot",
+            img: "https://i.ibb.co/Nv72jd4/Amla-shadow-elements-544x652.png",
+            content: "Ingredients: Amla (Indian Gooseberry) • Water • Honey • Ginger • A pinch of Salt. \nA tangy, refreshing wellness shot packed with traditional goodness.",
+            link: "drinks/Amla Shot.html"
+        }, {
+            name: "Moringa Shot",
+            img: "https://i.ibb.co/GQ08dSY6/Moringa-544x652.png",
+            content: "Ingredients: Moringa Leaf Extract • Water • Ginger • Honey • A pinch of Salt. \nA vibrant green wellness shot made from one of nature’s most nutrient-rich leaves",
+            link: "drinks/Moringa Shot.html"
+        }, {
+            name: "Neem Shot",
+            img: "https://i.ibb.co/Ps3cPNPP/Neem-544x652.png",
+            content: "Ingredients: Neem Leaf Extract • Water • Honey • A touch of Citric Balance. \nA bold, traditional wellness shot known for its purifying and balancing nature.",
+            link: "drinks/Neem Shot.html"
+        }, {
+            name: "Ginger Shot",
+            img: "https://i.ibb.co/n8qjj6ZZ/Gingger-shots-544x652.png",
+            content: "Ingredients: Ginger Juice • Lemon Juice • Honey • Pepper Powder \nA bold, concentrated wellness shot crafted to awaken your system naturally.",
+            link: "drinks/Ginger Shot.html"
+        }, {
+            name: "WheatGrass Shot",
+            img: "https://i.ibb.co/wxcnDn5/Wheat-Grass-544x652.png",
+            content: "Ingredients: Fresh Wheatgrass Extract • Water • A touch of Lemon. \nA vibrant green wellness shot made from freshly extracted wheatgrass.",
+            link: "drinks/Wheatgrass Shot.html"
+        }, {
+            name: "GinggerTurmeric Shot",
+            img: "https://i.ibb.co/PZW0sHP1/Gingger-Turmeric-shots-544x652.png",
+            content: "Ingredients: Ginger Juice • Lemon Juice • Honey • Pepper Powder. \nA bold, concentrated wellness shot crafted to awaken your system naturally.",
+            link: "drinks/Ginger Turmeric Shot.html"
+        }, {
+            name: "Barley Shot",
+            img: "https://i.ibb.co/67qt36GY/Barley-544x652.png",
+            content: "Ingredients: Barley Extract • Water • Lemon Juice • Honey • A pinch of Salt. \nA light, refreshing traditional drink known for its cooling and hydrating nature.",
+            link: "drinks/Barley Drink.html"
+        }];
+        let shotIndex = 0;
+
+        function updateShot() {
+            document.getElementById("shotBottle").src = shots[shotIndex].img;
+            document.getElementById("shotName").innerText = shots[shotIndex].name;
+            document.getElementById("shotTitle").innerText = shots[shotIndex].name;
+            document.getElementById("shotContent").innerText = shots[shotIndex].content;
+            document.getElementById("shotExplore").onclick = function () {
+                window.location.href = shots[shotIndex].link;
+            }
+        }
+
+        /* =============================
+           WELLNESS SHOTS CAROUSEL
+        ============================= */
+        function getWellnessElements() {
+            return [
+                document.getElementById("shotBottle"),
+                document.getElementById("shotName"),
+                document.getElementById("shotTitle"),
+                document.getElementById("shotContent")
+            ];
+        }
+
+        function nextShot() {
+            animateCarousel('wellness', getWellnessElements(), 'next', () => {
+                shotIndex = (shotIndex + 1) % shots.length;
+                updateShot();
+            });
+        }
+
+        function prevShot() {
+            animateCarousel('wellness', getWellnessElements(), 'prev', () => {
+                shotIndex = (shotIndex - 1 + shots.length) % shots.length;
+                updateShot();
+            });
+        }
+
+        updateShot();
+        updateProductBottle();
+
+        function openContact() {
+            document.getElementById("contactOverlay").classList.add("active");
+        }
+
+        function closeContact() {
+            document.getElementById("contactOverlay").classList.remove("active");
+        }
+    </script>
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("active");
+        }
+
+        function toggleMobileDropdown(id) {
+            const menu = document.getElementById(id);
+            menu.classList.toggle("active");
+        }
+
+        /* ===== FORCE POSITION RECALC ===== */
+        function forceFixPosition() {
+            const el = document.querySelector(".bottle-container");
+            if (!el) return;
+            el.style.transform = "translate(-50%, -50%)";
+            el.getBoundingClientRect();
+            el.style.transform = "translate(-50%, -50%)";
+        }
+        window.addEventListener("load", () => {
+            updateBottle();
+            forceFixPosition();
+            setTimeout(forceFixPosition, 50);
+            setTimeout(forceFixPosition, 150);
+            setTimeout(forceFixPosition, 300);
+        });
+        window.addEventListener("resize", forceFixPosition);
+
+
+
+
+
+    </script>
+</body>
+
+</html>

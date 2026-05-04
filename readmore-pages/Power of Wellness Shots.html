@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Power Of Wellness Shots – Shake & Gulp</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f7f7;
+            padding-top: 100px;
+            color: #2f3b2f;
+        }
+
+        /* CONTAINER */
+
+        .container {
+            width: 85%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* =============================
+           GLASS NAVBAR (UPDATED)
+        ============================= */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: none;
+            padding: 16px 70px;
+            border-radius: 50px;
+            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 40px;
+            height: auto;
+        }
+
+        /* =============================
+           LEVEL-1 DROPDOWN (Drinks)
+        ============================= */
+        .nav-item {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            min-width: 220px;
+            padding: 10px;
+            border-radius: 18px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 200;
+        }
+
+        .dropdown::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+        }
+
+        .nav-item:hover>.dropdown {
+            opacity: 1;
+            transform: translateX(-50%) translateY(8px);
+            pointer-events: auto;
+        }
+
+        .dropdown a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            font-size: 14px;
+            color: #000;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background 0.2s, padding-left 0.2s;
+            white-space: nowrap;
+        }
+
+        .dropdown a:hover {
+            background: rgba(0, 0, 0, 0.06);
+            padding-left: 18px;
+        }
+
+        .dropdown-category {
+            position: relative;
+        }
+
+        .dropdown-category>.cat-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            border-radius: 10px;
+            cursor: default;
+            transition: background 0.2s;
+        }
+
+        .dropdown-category:hover>.cat-label {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .cat-arrow {
+            font-size: 10px;
+            opacity: 0.5;
+            margin-left: 8px;
+        }
+
+        /* =============================
+           LEVEL-2 DROPDOWN (sub-list)
+        ============================= */
+        .dropdown-level2 {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            transform: translateX(10px);
+            min-width: 200px;
+            padding: 10px;
+            border-radius: 18px;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            z-index: 201;
+        }
+
+        .dropdown-level2::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -15px;
+            width: 15px;
+            height: 100%;
+        }
+
+        .dropdown-category:hover>.dropdown-level2 {
+            opacity: 1;
+            transform: translateX(5px);
+            pointer-events: auto;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.08);
+            margin: 6px 10px;
+        }
+
+        /* =============================
+           NAVBAR BACKGROUND BLUR
+        ============================= */
+        .nav-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+            z-index: 50;
+        }
+
+        body:has(.nav-item:hover) .nav-blur {
+            opacity: 1;
+        }
+
+        /* =============================
+           HAMBURGER MENU (UPDATED)
+        ============================= */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* =============================
+           MOBILE MENU
+        ============================= */
+        .mobile-menu {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            padding: 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            text-align: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-dropdown-title {
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mobile-dropdown-links {
+            display: none;
+            flex-direction: column;
+            margin-top: 8px;
+            gap: 10px;
+        }
+
+        .mobile-dropdown-links.active {
+            display: flex;
+        }
+
+        /* Mobile sub-dropdown */
+        .mobile-category-title {
+            font-weight: 600;
+            cursor: pointer;
+            padding: 4px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            margin-top: 4px;
+        }
+
+        .mobile-sub-links {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            padding-left: 14px;
+            margin-top: 6px;
+        }
+
+        .mobile-sub-links a {
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+        .mobile-sub-links.active {
+            display: flex;
+        }
+
+        /* =============================
+           CONTACT FORM (BASE)
+        ============================= */
+        #contactOverlay.overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s;
+        }
+
+        #contactOverlay.overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overlay-content {
+            position: relative;
+            width: 400px;
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            text-align: center;
+        }
+
+        .overlay-content h2 {
+            margin-bottom: 25px;
+        }
+
+        .overlay-content p {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+
+
+        /* ARTICLE */
+
+        .article {
+            padding: 60px 0;
+        }
+
+        .article h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 42px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .article img {
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            display: block;
+            margin: 0 auto 30px;
+        }
+
+        .article p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+            color: #444;
+        }
+
+        /* =============================
+           PREMIUM BLACK FOOTER
+        ============================= */
+        .custom-footer {
+            background: #000;
+            color: #fff;
+            padding: 40px 60px 20px 60px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left {
+            max-width: 300px;
+            margin-left: 60px;
+            position: relative;
+        }
+
+        .footer-left h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .footer-left p {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-middle {
+            text-align: left;
+        }
+
+        .footer-middle p {
+            margin-bottom: 12px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .footer-right h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .footer-right ul {
+            list-style: none;
+        }
+
+        .footer-right ul li {
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.85;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .footer-right ul li:hover {
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        /* =============================
+   MOBILE OPTIMIZATION
+ ============================= */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 80px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            /* NAVBAR */
+            .navbar {
+                padding: 12px 20px;
+                border-radius: 30px;
+            }
+
+            .logo img {
+                width: 32px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            /* CONTACT FORM MOBILE */
+            .overlay-content {
+                width: 90%;
+                padding: 25px;
+            }
+
+            /* ARTICLE */
+            .article {
+                padding: 40px 0;
+            }
+
+            .article h1 {
+                font-size: 26px;
+                line-height: 1.3;
+                margin-bottom: 20px;
+            }
+
+            .article img {
+                width: 100%;
+                /* FIXED */
+                height: 220px;
+                /* smaller height */
+                border-radius: 14px;
+            }
+
+            .article p {
+                font-size: 15px;
+                line-height: 1.7;
+            }
+
+            /* FOOTER */
+            .custom-footer {
+                padding: 60px 20px 30px 20px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .footer-left {
+                margin-left: 0;
+                max-width: none;
+            }
+
+            .footer-left img {
+                position: static !important;
+                margin: 30px auto 0 auto !important;
+                width: 220px !important;
+                opacity: 1 !important;
+            }
+
+            .footer-bottom {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+  <script src="preload-images.js"></script>
+
+    <div class="nav-blur"></div>
+
+    <div class="navbar">
+        <div class="logo" onclick="location.href='../index.html'" style="cursor: pointer;">
+            <img src="https://i.ibb.co/cSXcmScQ/Shake-Gulp-Logo.png" alt="Logo"> SHAKE & GULP
+
+        </div>
+
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+        <div class="nav-links">
+            <a href="../index.html#home">Home</a>
+
+            <div class="nav-item">
+                <a href="#">Drinks</a>
+                <div class="dropdown">
+
+                    <div class="dropdown-category">
+                        <div class="cat-label">
+                            Traditional Drinks
+                            <span class="cat-arrow">›</span>
+                        </div>
+                        <div class="dropdown-level2">
+                            <a href="../drinks/Jeera Buttermilk.html">Jeera Buttermilk</a>
+                            <a href="../drinks/Masala Buttermilk.html">Masala Buttermilk</a>
+                            <a href="../drinks/Date Buttermilk.html">Date Buttermilk</a>
+                            <a href="../drinks/Ragi Buttermilk.html">Ragi Buttermilk</a>
+                            <a href="../drinks/Sabja Lassi.html">Sabja Lassi</a>
+                            <a href="../drinks/Buttermilk.html">Buttermilk</a>
+                            <a href="../drinks/Nimbu Sabja.html">Nimbu Sabja</a>
+                            <a href="../drinks/Nimbu Pudina.html">Nimbu Pudina</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-divider"></div>
+
+                    <div class="dropdown-category">
+                        <div class="cat-label">
+                            Wellness Drinks
+                            <span class="cat-arrow">›</span>
+                        </div>
+                        <div class="dropdown-level2">
+                            <a href="../drinks/Ginger Shot.html">Ginger Shot</a>
+                            <a href="../drinks/Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+                            <a href="../drinks/Amla Shot.html">Amla Shot</a>
+                            <a href="../drinks/Neem Shot.html">Neem Shot</a>
+                            <a href="../drinks/Moringa Shot.html">Moringa Shot</a>
+                            <a href="../drinks/wheatgrass-prbxxx/">Wheatgrass Shot</a>
+                            <a href="../drinks/Barley Drink.html">Barley Drink</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <a href="../index.html#read">Read</a>
+            <a href="#" onclick="openContact()">Contact</a>
+        </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="../index.html#home" onclick="toggleMenu()">Home</a>
+
+        <div class="mobile-dropdown">
+            <div class="mobile-dropdown-title" onclick="toggleMobileDropdown('drinksList')">
+                Drinks ⮋
+            </div>
+            <div class="mobile-dropdown-links" id="drinksList">
+
+                <div class="mobile-category-title" onclick="toggleMobileDropdown('mTradList')">
+                    Traditional Drinks ⮋
+                </div>
+                <div class="mobile-sub-links" id="mTradList">
+                    <a href="../drinks/Jeera Buttermilk.html">Jeera Buttermilk</a>
+                    <a href="../drinks/Masala Buttermilk.html">Masala Buttermilk</a>
+                    <a href="../drinks/Date Buttermilk.html">Date Buttermilk</a>
+                    <a href="../drinks/Ragi Buttermilk.html">Ragi Buttermilk</a>
+                    <a href="../drinks/Sabja Lassi.html">Sabja Lassi</a>
+                    <a href="../drinks/Buttermilk.html">Buttermilk</a>
+                    <a href="../drinks/Nimbu Sabja.html">Nimbu Sabja</a>
+                    <a href="../drinks/Nimbu Pudina.html">Nimbu Pudina</a>
+                </div>
+
+                <div class="mobile-category-title" onclick="toggleMobileDropdown('mWellList')">
+                    Wellness Drinks ⮋
+                </div>
+                <div class="mobile-sub-links" id="mWellList">
+                    <a href="../drinks/Ginger Shot.html">Ginger Shot</a>
+                    <a href="../drinks/Ginger Turmeric Shot.html">Ginger Turmeric Shot</a>
+                    <a href="../drinks/Amla Shot.html">Amla Shot</a>
+                    <a href="../drinks/Neem Shot.html">Neem Shot</a>
+                    <a href="../drinks/Moringa Shot.html">Moringa Shot</a>
+                    <a href="../drinks/wheatgrass-prbxxx/">Wheatgrass Shot</a>
+                    <a href="../drinks/Barley Drink.html">Barley Drink</a>
+                </div>
+
+            </div>
+        </div>
+
+        <a href="../index.html#read" onclick="toggleMenu()">Read</a>
+        <a href="#" onclick="openContact();toggleMenu()">Contact</a>
+    </div>
+
+    <!-- ARTICLE CONTENT -->
+
+    <section class="article container">
+
+        <h1>Power Of Wellness Shots</h1>
+
+        <img
+            src="https://media.istockphoto.com/id/1395154145/photo/spring-or-summer-cold-cocktail-raspberry-lemonade.jpg?s=2048x2048&w=is&k=20&c=JUlQNgNnO8rIKxIf8LoF50Djdjfgco8Yy90QEQcfzDw=">
+
+
+        <p>
+            Wellness shots are concentrated beverages designed to deliver a high amount of nutrients in a small serving.
+            These drinks typically contain ingredients such as ginger, turmeric, moringa, wheatgrass, or amla. Because
+            they are highly concentrated, wellness shots are often consumed in small quantities but still provide
+            significant nutritional benefits. They have become increasingly popular among people who prioritize health
+            and functional nutrition.
+        </p>
+
+        <p>
+            One of the main advantages of wellness shots is their ability to support immunity. Many ingredients used in
+            these drinks are rich in antioxidants, vitamins, and plant compounds that help protect the body from
+            oxidative stress. Antioxidants play a crucial role in strengthening the immune system and maintaining
+            cellular health. By incorporating these shots into daily routines, individuals may support their body’s
+            natural defense mechanisms.
+        </p>
+
+        <p>
+            Wellness shots also contribute to improved energy levels and metabolic activity. Ingredients like ginger and
+            moringa are known to stimulate circulation and enhance metabolic processes. Unlike caffeinated beverages,
+            wellness shots often provide natural energy without causing sudden energy crashes. This makes them an
+            appealing option for people seeking a more balanced source of daily vitality.
+        </p>
+
+        <p>
+            Another important benefit of wellness shots is their potential role in detoxification and internal balance.
+            Many plant-based ingredients used in these beverages support the body’s natural detox processes. For
+            example, certain herbs and greens help the liver process toxins and maintain metabolic balance. This makes
+            wellness shots a popular component of detox and wellness programs.
+        </p>
+
+        <p>
+            Overall, wellness shots represent a modern approach to traditional nutrition. They combine powerful natural
+            ingredients into convenient, concentrated drinks that fit easily into busy lifestyles. As awareness about
+            functional foods continues to grow, wellness shots have become a common feature in health cafés and
+            wellness-focused beverage menus. Their popularity reflects a broader shift toward preventive health and
+            natural nutrition.
+        </p>
+
+        <p>
+            Shake & Gulp brings this timeless drink into the modern world. Using simple
+            ingredients and honest recipes, each bottle captures the same comforting
+            taste many people grew up with.
+        </p>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="custom-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <h2>Shake & Gulp</h2>
+                <p>Traditional Drinks. Honest Ingredients.</p>
+                <img src="../fssai.png" alt="FSSAI Logo"
+                    style="width: 180px; position: absolute; top: 80px; left: 0; display: block;">
+            </div>
+            <div class="footer-middle">
+                <p>📍 Address : 1-8-143, New Municipal Colony, Ganeshpuri Colony, Dilsukhnagar, Hyderabad</p>
+                <p>📞 Phone Number : <a href="tel:+919700159200" style="color: inherit; text-decoration: none;">9700159200</a></p>
+                <p>📧 Email : <a href="mailto:info@shakeandgulp.in" style="color: inherit; text-decoration: none;">info@shakeandgulp.in</a></p>
+            </div>
+            <div class="footer-right">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li onclick="location.href='../index.html#home'">• Home</li>
+                    <li onclick="location.href='../index.html#traditional'">• Flavours</li>
+                    <li onclick="location.href='../index.html#wellness'">• Wellness</li>
+                    <li onclick="location.href='../index.html#read'">• Read</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"> © Shake & Gulp — Shake Well. Gulp Fresh. </div>
+    </footer>
+
+    <div id="contactOverlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" onclick="closeContact()">&times;</span>
+            <h2>Contact Us</h2>
+            <p>📍 Address: [Insert Address]</p>
+            <p>📞 Phone : <a href="tel:+919700159200" style="color: inherit; text-decoration: none;">9700159200</a></p>
+            <p>✉️ Email: [Insert Email]</p>
+        </div>
+    </div>
+
+    <script>
+        function openContact() {
+            document.getElementById("contactOverlay").classList.add("active");
+        }
+
+        function closeContact() {
+            document.getElementById("contactOverlay").classList.remove("active");
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("active");
+        }
+
+        function toggleMobileDropdown(id) {
+            const menu = document.getElementById(id);
+            menu.classList.toggle("active");
+        }
+    </script>
+</body>
+
+</html>
