@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -254,13 +254,14 @@
 
     .hero {
       display: flex;
-      align-items: flex-start; /* Aligns content to top for consistency */
+      align-items: flex-start;
+      /* Aligns content to top for consistency */
       justify-content: center;
       gap: 50px;
-      padding: 40px 0 50px 0; /* Consistent top padding */
+      padding: 40px 0 50px 0;
+      /* Consistent top padding */
       min-height: 80vh;
       transform: none;
-      /* moves whole hero slightly left */
     }
 
 
@@ -274,7 +275,8 @@
     .bottle {
       width: 100%;
       max-width: 280px;
-      margin-top: 20px; /* Aligns bottle top with text top */
+      margin-top: 20px;
+      /* Aligns bottle top with text top */
     }
 
     /* ================= TEXT ================= */
@@ -670,25 +672,32 @@
       color: #000;
     }
 
-    .nav-arrow-left { left: 40px; }
-    .nav-arrow-right { right: 40px; }
-
-    .footer-left-col {
-      position: relative;
+    .nav-arrow-left {
+      left: 40px;
     }
 
-    .fssai-logo {
-      position: absolute;
-      width: 180px;
-      top: 60px;
-      left: 0;
-      display: block;
+    .nav-arrow-right {
+      right: 40px;
     }
+
+
+
+
 
     @media (max-width: 768px) {
-      .nav-arrow { width: 45px; height: 45px; font-size: 20px; }
-      .nav-arrow-left { left: 15px; }
-      .nav-arrow-right { right: 15px; }
+      .nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+      }
+
+      .nav-arrow-left {
+        left: 15px;
+      }
+
+      .nav-arrow-right {
+        right: 15px;
+      }
 
       .custom-footer {
         padding: 60px 20px 30px 20px;
@@ -706,6 +715,36 @@
         max-width: none;
       }
 
+      .footer-middle {
+        text-align: center;
+      }
+
+      .footer-middle p {
+        font-size: 15px;
+        margin-bottom: 15px;
+        line-height: 1.5;
+      }
+
+      .footer-right {
+        margin-top: 0;
+      }
+
+      .footer-right h3 {
+        margin-bottom: 20px;
+      }
+
+      .footer-right ul {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-right ul li {
+        padding: 5px 0;
+        font-size: 16px;
+      }
+
       .footer-left img {
         position: static !important;
         margin: 30px auto 0 auto !important;
@@ -714,7 +753,8 @@
       }
 
       .footer-bottom {
-        font-size: 12px;
+        margin-top: 40px;
+        padding: 20px 10px;
       }
     }
 
@@ -737,39 +777,6 @@
       }
     }
 
-    /* ================= PRINT ================= */
-
-    @media print {
-
-      body {
-        background: none !important;
-      }
-
-      .container {
-        width: 1100px !important;
-        margin: 0 auto !important;
-      }
-
-      .hero {
-        flex-direction: row !important;
-        min-height: auto;
-      }
-
-      .hero-left,
-      .hero-right {
-        width: 50% !important;
-      }
-
-      .header {
-        position: relative !important;
-      }
-    }
-
-    @page {
-      size: A4;
-      margin: 0;
-    }
-
     @media (max-width: 768px) {
 
       .nav-links {
@@ -786,7 +793,6 @@
         min-height: auto;
         padding: 40px 0;
         transform: none;
-        /* adjust 10–40px as needed */
       }
 
       .hero-left,
@@ -826,17 +832,9 @@
         align-items: center;
       }
 
-      .footer-cols {
-        flex-direction: column;
-        text-align: center;
-      }
 
-      .fssai-logo {
-        position: static !important;
-        margin: 30px auto 0 auto !important;
-        width: 220px !important;
-        opacity: 1 !important;
-      }
+
+
     }
 
     @media (min-width: 769px) and (max-width: 1024px) {
@@ -1126,8 +1124,13 @@
 
       <div class="special">
         <h2>What’s Special About This Drink?</h2>
-        <p>Nimbu Sabja is a natural way to help your body manage heat. We have combined the flavor of fresh lemons with the cooling properties of Sabja (sweet basil) seeds. These seeds have been used for generations to provide immediate refreshment and hydration. It is a simple and effective choice for when you need a cooling drink.</p>
-        <p>When soaked, Sabja seeds develop a unique texture that makes the drink satisfying. Shake & Gulp Nimbu Sabja provides this classic combination in a ready-to-drink format. Since we use real ingredients, the seeds may naturally settle, so please shake the bottle well before drinking.</p>
+        <p>Nimbu Sabja is a natural way to help your body manage heat. We have combined the flavor of fresh lemons with
+          the cooling properties of Sabja (sweet basil) seeds. These seeds have been used for generations to provide
+          immediate refreshment and hydration. It is a simple and effective choice for when you need a cooling drink.
+        </p>
+        <p>When soaked, Sabja seeds develop a unique texture that makes the drink satisfying. Shake & Gulp Nimbu Sabja
+          provides this classic combination in a ready-to-drink format. Since we use real ingredients, the seeds may
+          naturally settle, so please shake the bottle well before drinking.</p>
       </div>
     </div>
   </section>
@@ -1160,7 +1163,11 @@
 
     <div class="info-block">
       <h3>Roots Of The Ritual</h3>
-      <p>This drink highlights the fascinating Sabja (Basil) seeds, which have been used in traditional cooling drinks for their unique ability to absorb water and cool the body from within. Paired with the brightness of lemon, it creates a ritual of texture and refreshment. Sabja was often found in the royal kitchens of the East, prized for its soothing properties. This drink brings that touch of ancient luxury and cooling science to your daily routine, keeping you hydrated in the most elegant way.</p>
+      <p>This drink highlights the fascinating Sabja (Basil) seeds, which have been used in traditional cooling drinks
+        for their unique ability to absorb water and cool the body from within. Paired with the brightness of lemon, it
+        creates a ritual of texture and refreshment. Sabja was often found in the royal kitchens of the East, prized for
+        its soothing properties. This drink brings that touch of ancient luxury and cooling science to your daily
+        routine, keeping you hydrated in the most elegant way.</p>
     </div>
 
     <div class="info-block">
@@ -1204,8 +1211,10 @@
       </div>
       <div class="footer-middle">
         <p>📍 Address : 1-8-143, New Municipal Colony, Ganeshpuri Colony, Dilsukhnagar, Hyderabad</p>
-        <p>📞 Phone Number : <a href="tel:+919700159200" style="color: inherit; text-decoration: none;">9700159200</a></p>
-        <p>📧 Email : <a href="mailto:info@shakeandgulp.in" style="color: inherit; text-decoration: none;">info@shakeandgulp.in</a></p>
+        <p>📞 Phone Number : <a href="tel:+919700159200" style="color: inherit; text-decoration: none;">9700159200</a>
+        </p>
+        <p>📧 Email : <a href="mailto:info@shakeandgulp.in"
+            style="color: inherit; text-decoration: none;">info@shakeandgulp.in</a></p>
       </div>
       <div class="footer-right">
         <h3>Quick Links</h3>
