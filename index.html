@@ -259,7 +259,7 @@
         .bottle-container {
             position: absolute;
             left: 50%;
-            top: 60%;
+            top: 62%;
             transform: translate(-50%, -50%);
             z-index: 2;
             transition: 0.6s ease;
@@ -1182,7 +1182,7 @@
             }
 
             .bottle-container {
-                top: 59%;
+                top: 60%;
                 z-index: 3;
             }
 
@@ -1744,15 +1744,14 @@
     <script>
         /* =============================       BOTTLE DATA    ============================= */
         const bottles = [
-
             {
                 homeTitle: "SHAKE THE SPICE <br> GULP THE COOL",
                 name: "Buttermilk • Jeera Buttermilk • Masala Buttermilk",
                 bottle: "assets/images/RTbRShy8-Jeera-butermilk-shots-577x616.png",
                 leftBottle: "assets/images/S4gX0s5B-Buttermilk-577x616.png",
                 rightBottle: "assets/images/ksgJhZWV-Masala-Buttermilk-577x616.png",
-                leftPosition: "28%",
-                rightPosition: "15%",
+                leftPosition: "32%",
+                rightPosition: "12%",
                 centerScale: "1",
                 lemon: "assets/images/yF0gLj2T-element-1-without-blured.png",
                 mint: "",
@@ -1760,13 +1759,13 @@
                 content: " "
             }, {
                 homeTitle: "SHAKE THE GOODNESS <br> GULP THE NOURISHMENT",
-                name: "Sweet Buttermilk • Ragi Buttermilk • Sabja Lassi",
+                name: "Moringa Shot • Ragi Buttermilk • Sabja Lassi",
                 bottle: "assets/images/cSnC7DSr-Ragi-577x616.png",
                 leftBottle: "assets/images/MyznJBNH-Moringa-577x616.png",
                 rightBottle: "assets/images/8gRPX35G-Sabja-Lassi-577x616.png",
-                leftPosition: "30%",
-                rightPosition: "18%",
-                centerScale: "1.05",
+                leftPosition: "32%",
+                rightPosition: "12%",
+                centerScale: "1",
                 lemon: "assets/images/1fMcKBxZ-element1-without-blured.png",
                 mint: "",
                 jeera: "assets/images/WWjpsWsH-element2-without-blured.png",
@@ -1779,7 +1778,7 @@
                 leftBottle: "assets/images/N21nQCHt-Neem-577x616.png",
                 rightBottle: "assets/images/MyznJBNH-Moringa-577x616.png",
                 leftPosition: "32%",
-                rightPosition: "20%",
+                rightPosition: "12%",
                 centerScale: "1",
                 lemon: "assets/images/SWKpNbY-Element-1-without-blured.png",
                 mint: "",
@@ -1792,9 +1791,9 @@
                 bottle: "assets/images/QFhZ9Brx-Gingger-Turmeric-shots-577x616.png",
                 leftBottle: "assets/images/Qv890Xpq-Gingger-shots-577x616.png",
                 rightBottle: "assets/images/barley-bottle-577x616.png",
-                leftPosition: "25%",
+                leftPosition: "32%",
                 rightPosition: "12%",
-                centerScale: "1.1",
+                centerScale: "1",
                 lemon: "assets/images/Nnr3kpJs-element-1-without-blured.png",
                 mint: "",
                 jeera: "assets/images/CKWVMNXY-element-2-without-blured.png",
@@ -1817,6 +1816,17 @@
             document.getElementById("lemonImg").src = current.lemon;
             document.getElementById("mintImg").src = current.mint;
             document.getElementById("jeeraImg").src = current.jeera;
+
+            // Apply standardized positions and scale (Desktop only)
+            if (window.innerWidth > 768) {
+                const leftContainer = document.querySelector(".left-bottle");
+                const rightContainer = document.querySelector(".right-bottle");
+                const centerContainer = document.querySelector(".bottle-container");
+
+                if (leftContainer) leftContainer.style.left = current.leftPosition;
+                if (rightContainer) rightContainer.style.right = current.rightPosition;
+                if (centerContainer) centerContainer.style.transform = `translate(-50%, -50%) scale(${current.centerScale})`;
+            }
         }
 
         /* =============================
@@ -2086,9 +2096,11 @@
         function forceFixPosition() {
             const el = document.querySelector(".bottle-container");
             if (!el) return;
-            el.style.transform = "translate(-50%, -50%)";
+            const current = bottles[index];
+            const scale = (window.innerWidth > 768) ? (current.centerScale || 1) : 1;
+            el.style.transform = `translate(-50%, -50%) scale(${scale})`;
             el.getBoundingClientRect();
-            el.style.transform = "translate(-50%, -50%)";
+            el.style.transform = `translate(-50%, -50%) scale(${scale})`;
         }
         window.addEventListener("load", () => {
             updateBottle();
