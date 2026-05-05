@@ -87,6 +87,14 @@
       width: 40px;
       height: auto;
     }
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #000;
+      white-space: nowrap;
+    }
 
     /* =============================
            LEVEL-1 DROPDOWN (Drinks)
@@ -785,6 +793,24 @@
         display: block;
       }
 
+      .navbar {
+        padding: 12px 25px;
+      }
+
+      .logo {
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 30px;
+      }
+
+      .logo-text {
+        display: block;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
       .hero {
         flex-direction: column;
         text-align: center;
@@ -964,6 +990,7 @@
   <div class="navbar">
     <div class="logo" onclick="location.href='../index.html'" style="cursor: pointer;">
       <img src="../assets/images/Shake-Gulp-Logo.png" alt="Logo">
+      <span class="logo-text">SHAKE & GULP</span>
     </div>
 
     <div class="hamburger" onclick="toggleMenu()">☰</div>
@@ -1238,22 +1265,45 @@
     }
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    (function () {
-      emailjs.init("YOUR_PUBLIC_KEY");
-    })();
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      emailjs.send("service_336uilp", "YOUR_TEMPLATE_ID", {
-        name: document.getElementById("name").value,
-        phone: document.getElementById("number").value,
-        email: document.getElementById("email").value
-      })
-        .then(function () {
-          alert("Message Sent Successfully!");
-          closeContact();
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      (function () {
+        emailjs.init("mUpBAyv60fFvoVAvi");
+      })();
+
+      document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        emailjs.send("service_336uilp", "template_mapdv1p", {
+          from_name: document.getElementById("name").value,
+          phone: document.getElementById("number").value,
+          reply_to: document.getElementById("email").value,
+          message: document.getElementById("message").value
+        })
+          .then(function () {
+            closeContact();
+            document.getElementById("contactForm").reset();
+            Swal.fire({
+                icon: "success",
+                title: "Message Sent!",
+                text: "Thank you for contacting Shake & Gulp. We will get back to you soon.",
+                confirmButtonText: "Done",
+                confirmButtonColor: "#000"
+            });
+          })
+          .catch(function (error) {
+            console.error("EmailJS Error:", JSON.stringify(error));
+            Swal.fire({
+                icon: "error",
+                title: "Message Failed",
+                text: "Please try again. " + (error.text || error.status || JSON.stringify(error)),
+                confirmButtonText: "Okay",
+                confirmButtonColor: "#000"
+            });
+          });
+      });
     });
   </script>
   <a href="Ginger Turmeric Shot.html" class="nav-arrow nav-arrow-left">&#10094;</a>
