@@ -1610,7 +1610,8 @@
         <div class="hero-text" id="homeTitle">SHAKE THE SPICE <br> GULP THE COOL</div>
 
         <div class="bottle-container">
-            <img id="bottleImage" class="bottle" src="assets/images/RTbRShy8-Jeera-butermilk-shots-577x616.png">
+            <img id="bottleImage" class="bottle" src="assets/images/RTbRShy8-Jeera-butermilk-shots-577x616.png"
+                fetchpriority="high" loading="eager">
             <div class="ingredients">
                 <img id="lemonImg" class="lemon" src="assets/images/yF0gLj2T-element-1-without-blured.png">
                 <img id="mintImg" class="mint" src="">
@@ -1619,11 +1620,13 @@
         </div>
 
         <div class="side-bottle left-bottle">
-            <img id="leftBottleImg" src="assets/images/S4gX0s5B-Buttermilk-577x616.png" class="bottle">
+            <img id="leftBottleImg" src="assets/images/S4gX0s5B-Buttermilk-577x616.png" class="bottle"
+                fetchpriority="high" loading="eager">
         </div>
 
         <div class="side-bottle right-bottle">
-            <img id="rightBottleImg" src="assets/images/ksgJhZWV-Masala-Buttermilk-577x616.png" class="bottle">
+            <img id="rightBottleImg" src="assets/images/ksgJhZWV-Masala-Buttermilk-577x616.png" class="bottle"
+                fetchpriority="high" loading="eager">
         </div>
 
         <div class="arrow arrow-left" onclick="prevBottle()">&#10094;</div>
@@ -2140,13 +2143,28 @@
 
         /* ===== FORCE POSITION RECALC ===== */
         function forceFixPosition() {
-            const el = document.querySelector(".bottle-container");
-            if (!el) return;
-            const current = bottles[index];
-            const scale = (window.innerWidth > 768) ? (current.centerScale || 1) : 1;
-            el.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            el.getBoundingClientRect();
-            el.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            const elements = [
+                document.querySelector(".bottle-container"),
+                document.querySelector(".left-bottle"),
+                document.querySelector(".right-bottle")
+            ];
+
+            elements.forEach(el => {
+                if (!el) return;
+                // Force a reflow without overwriting CSS values
+                const prev = el.style.transform;
+                el.style.transform = "translateZ(0)";
+                void el.offsetWidth;
+                el.style.transform = prev;
+            });
+
+            // Still apply the specific center scale for desktop
+            const centerEl = document.querySelector(".bottle-container");
+            if (centerEl && window.innerWidth > 768) {
+                const current = bottles[index];
+                const scale = current.centerScale || 1;
+                centerEl.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            }
         }
         window.addEventListener("load", () => {
             updateBottle();
