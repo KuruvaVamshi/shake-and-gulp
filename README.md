@@ -1,2 +1,1 @@
-Git-hosted link :  
-https://kuruvavamshi.github.io/shake-and-gulp
+Git-hosted link :   https://kuruvavamshi.github.io/Shake-Gulf-updated-content/

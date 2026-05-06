@@ -421,6 +421,7 @@
         ============================= */
         .product-section {
             height: 100vh;
+            height: 100svh;
             display: flex;
         }
 
@@ -488,6 +489,7 @@
 
         .home-section {
             height: 100vh;
+            height: 100svh;
             position: relative;
             display: flex;
             justify-content: center;
@@ -500,6 +502,7 @@
         .second-section {
             position: relative;
             min-height: 100vh;
+            min-height: 100svh;
             display: flex;
             background: #f8f4ed;
         }
@@ -527,6 +530,7 @@
         ============================= */
         .read-section {
             min-height: 100vh;
+            min-height: 100svh;
             background: #f8f4ed;
             padding: 120px 80px;
             position: relative;
@@ -1215,7 +1219,7 @@
 
             .bottle {
                 width: 220px;
-                height: auto !important;
+                height: 235px !important;
                 margin-top: 0px;
             }
 
@@ -1760,7 +1764,7 @@
             document.getElementById("contactForm").addEventListener("submit", function (e) {
                 e.preventDefault();
 
-                emailjs.send("service_336uilp", "template_mapdv1p", {
+                emailjs.send("service_cbctp7e", "template_mapdv1p", {
                     from_name: document.getElementById("name").value,
                     phone: document.getElementById("number").value,
                     reply_to: document.getElementById("email").value,
